@@ -71,3 +71,17 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## init prisma 
+ copy and past .env.dist and rename the copy on .env
+ change username and password of DATABASE_URL with your mysql username and password 
+
+ lauch this two command:
+
+ npx prisma migrate dev 
+ npx prisma db push 
+
+
+ ## swagger 
+
+ for see the swagger go to apiUrl/api/swagger
