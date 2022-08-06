@@ -85,3 +85,14 @@ Nest is [MIT licensed](LICENSE).
  ## swagger 
 
  for see the swagger go to apiUrl/api/swagger
+
+## Logger
+
+dans le construcor du composant: private _logService: LogService,
+
+throw new error / catch error: 
+
+this._logService.addLog('source', 'category', this.constructor.name, err.message)
+
+source: sourceEnum.FRONT || sourceEnum.BACK
+categroy: category.DEBUG || sourceEnum.INFO || sourceEnum.DEFAULT || sourceEnum.WARNING || sourceEnum.ERROR
