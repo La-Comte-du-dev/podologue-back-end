@@ -11,7 +11,7 @@ export class LogService {
     return this._prisma.log.findMany();
   }
 
-  // create a new beer
+  // add a log
   async addLog(data: Prisma.LogCreateInput): Promise<Log> {
     const source = data.source;
     const category = data.category;
