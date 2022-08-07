@@ -26,6 +26,7 @@ model Log {
   category  CategoryEnum
   component String       @db.VarChar(255)
   message   String       @db.VarChar(255)
+  error     String       @db.VarChar(255)
   date      DateTime     @default(now())
 }
 

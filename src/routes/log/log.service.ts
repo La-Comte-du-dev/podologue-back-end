@@ -1,6 +1,7 @@
 import { ImATeapotException, Injectable } from '@nestjs/common';
 import { CategoryEnum, Log, Prisma, SourceEnum } from '@prisma/client';
 import { PrismaService } from '../../prisma.service';
+import { LogDto } from './log.dto';
 
 @Injectable()
 export class LogService {
@@ -12,12 +13,22 @@ export class LogService {
   }
 
   // add a log
-  async addLog(data: Prisma.LogCreateInput): Promise<Log> {
-    const source = data.source;
-    const category = data.category;
+  async addLog(dto: LogDto): Promise<Log> {
+    const data: Prisma.LogCreateInput = {
+      component: dto.component,
+      message: dto.message,
+      error: dto.error,
+      category: dto.category,
+      source: dto.source,
+    };
+
+    const source = dto.source;
+    const category = dto.category;
+
     if (!(source in SourceEnum && category in CategoryEnum)) {
       throw new ImATeapotException('bad Enum');
     }
+
     return this._prisma.log.create({
       data,
     });

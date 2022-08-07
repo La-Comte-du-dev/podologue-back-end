@@ -1,16 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CategoryEnum, SourceEnum } from './interface';
+import { CategoryEnum, SourceEnum } from '@prisma/client';
 
 export class LogDto {
   @ApiProperty({ enum: SourceEnum, default: [], isArray: true })
-  source: SourceEnum[] = [];
+  source: SourceEnum;
 
   @ApiProperty({ enum: CategoryEnum, default: [], isArray: true })
-  category: CategoryEnum[] = [];
+  category: CategoryEnum;
 
   @ApiProperty()
-  component: String;
+  component: string;
 
   @ApiProperty()
-  message: String;
+  message: string;
+
+  @ApiProperty()
+  error: string;
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { Log as LogModel, Prisma } from '@prisma/client';
+import { Log as LogModel } from '@prisma/client';
 import { LogDto } from './log.dto';
 import { LogService } from './log.service';
 
@@ -23,7 +23,7 @@ export class LogController {
     description: 'Store product structure',
   })
   @Post()
-  async addLog(@Body() log: Prisma.LogCreateInput): Promise<LogModel> {
+  async addLog(@Body() log: LogDto): Promise<LogModel> {
     const { ...data } = log;
     return this._logService.addLog({
       ...data,
