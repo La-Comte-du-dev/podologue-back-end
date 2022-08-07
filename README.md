@@ -79,6 +79,7 @@ Nest is [MIT licensed](LICENSE).
  lauch this two command:
 
  npx prisma migrate dev 
+
  npx prisma db push 
 
 
@@ -88,7 +89,7 @@ Nest is [MIT licensed](LICENSE).
 
 ## Logger
 
-dans le construcor du composant: private _logService: LogService,
+injection de dependance dans le constructeur de la class ou utiliser le LogService,
 
 throw new error / catch error: 
 
