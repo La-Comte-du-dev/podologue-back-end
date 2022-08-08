@@ -79,9 +79,21 @@ Nest is [MIT licensed](LICENSE).
  lauch this two command:
 
  npx prisma migrate dev 
+
  npx prisma db push 
 
 
  ## swagger 
 
  for see the swagger go to apiUrl/api/swagger
+
+## Logger
+
+injection de dependance dans le constructeur de la class ou utiliser le LogService,
+
+throw new error / catch error: 
+
+this._logService.addLog('source', 'category', this.constructor.name, err.message, err.error)
+
+source: sourceEnum.FRONT || sourceEnum.BACK
+categroy: category.DEBUG || sourceEnum.INFO || sourceEnum.DEFAULT || sourceEnum.WARNING || sourceEnum.ERROR
