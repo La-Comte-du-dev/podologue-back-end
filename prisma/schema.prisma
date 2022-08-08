@@ -19,3 +19,26 @@ model User {
   avatar     String?  @db.Text
   role       Int      @default(1)
 }
+
+model Log {
+  id        Int          @id @default(autoincrement())
+  source    SourceEnum
+  category  CategoryEnum
+  component String       @db.VarChar(255)
+  message   String       @db.VarChar(255)
+  error     String       @db.VarChar(255)
+  date      DateTime     @default(now())
+}
+
+enum SourceEnum {
+  FRONT
+  BACK
+}
+
+enum CategoryEnum {
+  DEBUG
+  INFO
+  DEFAULT
+  WARNING
+  ERROR
+}
