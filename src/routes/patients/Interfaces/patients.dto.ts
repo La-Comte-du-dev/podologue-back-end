@@ -14,7 +14,7 @@ export class PatientDto {
   adress1: string;
 
   @ApiProperty()
-  adress2?: string;
+  adress2?: string | null;
 
   @ApiProperty()
   zipcode: number;
@@ -23,8 +23,8 @@ export class PatientDto {
   city: string;
 
   @ApiProperty()
-  email?: string;
+  email?: string | null;
 
   @ApiProperty()
-  phone?: number;
+  phone?: number | null;
 }

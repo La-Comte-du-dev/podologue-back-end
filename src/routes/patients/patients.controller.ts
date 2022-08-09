@@ -56,6 +56,7 @@ export class PatientsController {
   @Post()
   async createPatient(@Body() patientData: PatientDto): Promise<PatientModel> {
     const { ...data } = patientData;
+    console.log(patientData);
     return this.patientsService.createPatient({ ...data });
   }
 

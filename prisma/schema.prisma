@@ -25,7 +25,7 @@ model Patient {
   firstname String  @db.VarChar(255)
   lastname  String  @db.VarChar(255)
   adress1   String  @db.VarChar(255)
-  adress2   String  @db.VarChar(255)
+  adress2   String? @db.VarChar(255)
   zipcode   Int     @db.Int
   city      String  @db.VarChar(255)
   email     String? @unique @db.VarChar(255)
