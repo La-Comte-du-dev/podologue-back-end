@@ -13,7 +13,7 @@ export class LogService {
   }
 
   // add a log
-  async addLog(dto: LogDto): Promise<Log> {
+  public async addLog(dto: LogDto): Promise<Log> {
     const data: Prisma.LogCreateInput = {
       component: dto.component,
       message: dto.message,

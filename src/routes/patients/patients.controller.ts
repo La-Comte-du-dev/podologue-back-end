@@ -10,13 +10,22 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
-import { Patient as PatientModel, Prisma } from '@prisma/client';
+import {
+  CategoryEnum,
+  Patient as PatientModel,
+  Prisma,
+  SourceEnum,
+} from '@prisma/client';
 import { ParamToNumberPipe } from 'src/pipe/convert/param-to-number.pipe';
+import { LogService } from '../log/log.service';
 import { PatientDto } from './Interfaces/patients.dto';
 import { PatientsService } from './patients.service';
 @Controller('patients')
 export class PatientsController {
-  constructor(private readonly patientsService: PatientsService) {}
+  constructor(
+    private readonly patientsService: PatientsService,
+    private _logService: LogService,
+  ) {}
 
   @ApiBody({
     type: PatientDto,
@@ -26,66 +35,125 @@ export class PatientsController {
   //get all patients
   @Get()
   async getPatients(): Promise<PatientModel[]> {
-    return await this.patientsService.getPatient();
+    try {
+      return await this.patientsService.getPatient();
+    } catch (error) {
+      this._logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: error.message,
+        error: error.code,
+      });
+    }
   }
 
   //get a patient by his id
   @Get(':id')
   @UsePipes(ParamToNumberPipe)
-  async getPatientById(@Param('id') id: number): Promise<PatientModel> {
-    const patient = await this.patientsService.getPatientById({ id });
-    if (!patient) {
-      throw new NotFoundException('No patient found');
+  public async getPatientById(@Param('id') id: number): Promise<PatientDto> {
+    try {
+      const patient = await this.patientsService.getPatientById({ id });
+      if (!patient) {
+        throw new NotFoundException('No patient found');
+      }
+      return patient;
+    } catch (error) {
+      this._logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: error.message,
+        error: error.code,
+      });
     }
-    return patient;
   }
 
   //get patients whose data match an input
   @Get('search/:input')
-  async getPatientsByInput(
+  public async getPatientsByInput(
     @Param('input') input: string,
   ): Promise<PatientModel[] | null> {
-    const patients = await this.patientsService.getPatientsByInput(input);
-    if (!patients) {
-      throw new NotFoundException('No patient matching');
+    try {
+      const patients = await this.patientsService.getPatientsByInput(input);
+      if (!patients) {
+        throw new NotFoundException('No patient matching');
+      }
+      return patients;
+    } catch (error) {
+      this._logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: error.message,
+        error: error.code,
+      });
     }
-    return patients;
   }
 
   //post a patient
   @Post()
   async createPatient(@Body() patientData: PatientDto): Promise<PatientModel> {
     const { ...data } = patientData;
-    console.log(patientData);
-    return this.patientsService.createPatient({ ...data });
+    try {
+      return this.patientsService.createPatient({ ...data });
+    } catch (error) {
+      this._logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: error.message,
+        error: error.code,
+      });
+    }
   }
 
   //update a patient
   @Put(':id')
   @UsePipes(ParamToNumberPipe)
-  async updatePatient(
+  public async updatePatient(
     @Param('id') id: number,
     @Body() patientData: Prisma.PatientUpdateInput,
   ): Promise<PatientModel> {
-    const { ...data } = patientData;
-    const patient = await this.patientsService.getPatientById({ id });
-    if (!patient) {
-      throw new NotFoundException('No patient can be updated');
+    try {
+      const { ...data } = patientData;
+      const patient = await this.patientsService.getPatientById({ id });
+      if (!patient) {
+        throw new NotFoundException('No patient can be updated');
+      }
+      return this.patientsService.updatePatient({
+        patientId: id,
+        data: { ...data },
+      });
+    } catch (error) {
+      this._logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: error.message,
+        error: error.code,
+      });
     }
-    return this.patientsService.updatePatient({
-      patientId: id,
-      data: { ...data },
-    });
   }
 
   //delete a patient
   @Delete(':id')
   @UsePipes(ParamToNumberPipe)
   async deletePatient(@Param('id') id: number): Promise<PatientModel> {
-    const patient = await this.patientsService.getPatientById({ id });
-    if (!patient) {
-      throw new NotFoundException('No patient found, cannot delete it');
+    try {
+      const patient = await this.patientsService.getPatientById({ id });
+      if (!patient) {
+        throw new NotFoundException('No patient found, cannot delete it');
+      }
+      return this.patientsService.deletePatient(id);
+    } catch (error) {
+      this._logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: error.message,
+        error: error.code,
+      });
     }
-    return this.patientsService.deletePatient(id);
   }
 }

@@ -13,12 +13,23 @@ export class PatientsService {
 
   async getPatientById(
     patientId: Prisma.PatientWhereUniqueInput,
-  ): Promise<Patient | null> {
-    return await this._prisma.patient.findUnique({ where: patientId });
+  ): Promise<PatientDto | null> {
+    const data = await this._prisma.patient.findUnique({ where: patientId });
+    const PatientDto: PatientDto = {
+      id: data.id,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      adress1: data.adress1,
+      adress2: data.adress2,
+      zipcode: data.zipcode,
+      city: data.city,
+      email: data.email,
+      phone: data.phone,
+    };
+    return PatientDto;
   }
 
   async getPatientsByInput(input: string): Promise<Patient[] | null> {
-    //const parsedInput = parseInt(input);
     return await this._prisma.patient.findMany({
       where: {
         OR: [
