@@ -24,8 +24,12 @@ export class PatientsService {
         OR: [
           { firstname: { contains: input } },
           { lastname: { contains: input } },
+          { adress1: { contains: input } },
+          { adress2: { contains: input } },
+          { zipcode: { contains: input } },
+          { city: { contains: input } },
           { email: { contains: input } },
-          //{ phone: { contains: parsedInput } },
+          { phone: { contains: input } },
         ],
       },
     });

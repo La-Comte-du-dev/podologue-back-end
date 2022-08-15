@@ -41,7 +41,7 @@ export class PatientsController {
   }
 
   //get patients whose data match an input
-  @Get(':input')
+  @Get('search/:input')
   async getPatientsByInput(
     @Param('input') input: string,
   ): Promise<PatientModel[] | null> {
