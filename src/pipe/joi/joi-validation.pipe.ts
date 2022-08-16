@@ -1,6 +1,6 @@
 import {
   ArgumentMetadata,
-  ImATeapotException,
+  BadRequestException,
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
@@ -8,12 +8,12 @@ import { ObjectSchema } from 'joi';
 
 @Injectable()
 export class JoiValidationPipe implements PipeTransform {
-  constructor(private schema: ObjectSchema) {}
+  constructor(private _schema: ObjectSchema) {}
 
   transform(value: any, metadata: ArgumentMetadata) {
-    const { error } = this.schema.validate(value);
+    const { error } = this._schema.validate(value);
     if (error) {
-      throw new ImATeapotException(error);
+      throw new BadRequestException(error);
     }
     return value;
   }

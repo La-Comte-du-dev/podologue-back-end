@@ -1,6 +1,15 @@
-import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+  UsePipes,
+} from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Log as LogModel } from '@prisma/client';
+import { JoiValidationPipe } from 'src/pipe/joi/joi-validation.pipe';
+import { logSchema } from 'src/schemas/joi-log-schema';
 import { LogDto } from './log.dto';
 import { LogService } from './log.service';
 
