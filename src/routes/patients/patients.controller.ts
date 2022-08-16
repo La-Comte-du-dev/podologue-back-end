@@ -18,7 +18,7 @@ import {
 } from '@prisma/client';
 import { ParamToNumberPipe } from 'src/pipe/convert/param-to-number.pipe';
 import { LogService } from '../log/log.service';
-import { PatientDto } from './Interfaces/patients.dto';
+import { PatientDto } from './patients.dto';
 import { PatientsService } from './patients.service';
 
 @ApiTags('api/patients')
