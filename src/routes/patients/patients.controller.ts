@@ -9,7 +9,7 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import {
   CategoryEnum,
   Patient as PatientModel,
@@ -20,7 +20,9 @@ import { ParamToNumberPipe } from 'src/pipe/convert/param-to-number.pipe';
 import { LogService } from '../log/log.service';
 import { PatientDto } from './Interfaces/patients.dto';
 import { PatientsService } from './patients.service';
-@Controller('patients')
+
+@ApiTags('api/patients')
+@Controller('api/patients')
 export class PatientsController {
   constructor(
     private readonly patientsService: PatientsService,
