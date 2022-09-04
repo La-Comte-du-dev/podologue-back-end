@@ -10,7 +10,6 @@ import { promisify } from 'util';
 import { JwtService } from '@nestjs/jwt';
 import { defaultAdmin } from './auth-config';
 import { LogService } from '../log/log.service';
-import { LogDto } from '../log/log.dto';
 
 const scrypt = promisify(_scrypt);
 
