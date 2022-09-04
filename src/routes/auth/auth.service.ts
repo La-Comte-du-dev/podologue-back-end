@@ -3,12 +3,14 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, User } from '@prisma/client';
+import { CategoryEnum, Prisma, SourceEnum, User } from '@prisma/client';
 import { UsersService } from 'src/routes/auth/users/users.service';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { JwtService } from '@nestjs/jwt';
 import { defaultAdmin } from './auth-config';
+import { LogService } from '../log/log.service';
+import { LogDto } from '../log/log.dto';
 
 const scrypt = promisify(_scrypt);
 
@@ -17,6 +19,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly logService: LogService,
   ) {}
 
   private async signup({
@@ -30,9 +33,23 @@ export class AuthService {
     const existingUserMail = await this.usersService.getUser(email);
 
     if (existingUserName) {
+      this.logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: 'username already exist',
+        error: '400',
+      });
       throw new BadRequestException('username already exist');
     }
     if (existingUserMail) {
+      this.logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: 'email already exist',
+        error: '400',
+      });
       throw new BadRequestException('email already exist');
     }
     // Hash the password
@@ -56,16 +73,37 @@ export class AuthService {
     const user = await this.usersService.getUser(username);
     const existingAdmin = await this.usersService.getUsers();
     if (existingAdmin.length === 0) {
+      this.logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.DEFAULT,
+        component: this.constructor.name,
+        message: 'create new admin',
+        error: 'null',
+      });
       await this.signup(defaultAdmin);
       this.signin(defaultAdmin);
     }
     if (!user) {
+      this.logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: 'User not found',
+        error: '404',
+      });
       throw new NotFoundException('User not found');
     }
     const [salt, storedhash] = user.password.split('.');
     const hash = (await scrypt(clearPassword, salt, 32)) as Buffer;
 
     if (storedhash !== hash.toString('hex')) {
+      this.logService.addLog({
+        source: SourceEnum.BACK,
+        category: CategoryEnum.ERROR,
+        component: this.constructor.name,
+        message: 'bad password',
+        error: '400',
+      });
       throw new BadRequestException('bad password');
     }
     const { password, ...userObject } = user;
