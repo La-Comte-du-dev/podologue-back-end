@@ -96,4 +96,4 @@ throw new error / catch error:
 this._logService.addLog('source', 'category', this.constructor.name, err.message, err.error)
 
 source: sourceEnum.FRONT || sourceEnum.BACK
-categroy: category.DEBUG || category.INFO || category.DEFAULT || category.WARNING || category.ERROR
+categroy: categoryEnum.DEBUG || categoryEnum.INFO || categoryEnum.DEFAULT || categoryEnum.WARNING || categoryEnum.ERROR
