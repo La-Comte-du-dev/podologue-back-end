@@ -32,8 +32,7 @@ export class LogController {
     description: 'Store product structure',
   })
   @Post()
-  @UsePipes(new JoiValidationPipe(logSchema))
-  async addLog(@Body() log: LogDto): Promise<LogModel> {
+  public async addLog(@Body() log: LogDto): Promise<LogModel> {
     const { ...data } = log;
     return this._logService.addLog({
       ...data,
