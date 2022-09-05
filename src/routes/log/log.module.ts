@@ -6,5 +6,6 @@ import { LogService } from './log.service';
 @Module({
   controllers: [LogController],
   providers: [LogService, PrismaService],
+  exports: [LogService],
 })
 export class LogModule {}

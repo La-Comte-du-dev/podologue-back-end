@@ -19,6 +19,54 @@ model User {
   role       String   @default("User")
 }
 
+model Patient {
+  id           Int           @id @default(autoincrement())
+  firstname    String        @db.VarChar(255)
+  lastname     String        @db.VarChar(255)
+  adress1      String        @db.VarChar(255)
+  adress2      String?       @db.VarChar(255)
+  zipcode      String        @db.VarChar(5)
+  city         String        @db.VarChar(255)
+  email        String?       @unique @db.VarChar(255)
+  phone        String?       @db.VarChar(10)
+  appointments Appointment[]
+}
+
+model CareType {
+  id            Int    @id @default(autoincrement())
+  name          String @db.VarChar(255)
+  caretypeprice Int?
+  Cares         Care[]
+}
+
+model Care {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(255)
+  careprice           Int?
+  caretype            CareType              @relation(fields: [caretypeId], references: [id])
+  caretypeId          Int
+  CaresOnAppointments CaresOnAppointments[]
+}
+
+model Appointment {
+  id                  Int                   @id @default(autoincrement())
+  date                DateTime              @db.DateTime
+  facture             String                @db.VarChar(255)
+  isquotation         Boolean               @default(false)
+  Patient             Patient?              @relation(fields: [patientId], references: [id])
+  patientId           Int
+  CaresOnAppointments CaresOnAppointments[]
+}
+
+model CaresOnAppointments {
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  appointmentId Int
+  care          Care        @relation(fields: [careId], references: [id])
+  careId        Int
+
+  @@id([appointmentId, careId])
+}
+
 model Log {
   id        Int          @id @default(autoincrement())
   source    SourceEnum

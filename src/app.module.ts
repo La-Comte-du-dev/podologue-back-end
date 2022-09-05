@@ -3,10 +3,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
 import { LogModule } from './routes/log/log.module';
+import { PatientsModule } from './routes/patients/patients.module';
+import { CaretypesModule } from './routes/caretypes/caretypes.module';
+import { CaresModule } from './routes/cares/cares.module';
+import { AppointmentsModule } from './Routes/appointments/appointments.module';
 import { AuthModule } from './routes/auth/auth.module';
-
 @Module({
-  imports: [LogModule, AuthModule],
+  imports: [
+    LogModule,
+    PatientsModule,
+    CaretypesModule,
+    CaresModule,
+    AppointmentsModule,
+    AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
