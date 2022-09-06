@@ -7,7 +7,7 @@ import { PatientsModule } from './routes/patients/patients.module';
 import { CaretypesModule } from './routes/caretypes/caretypes.module';
 import { CaresModule } from './routes/cares/cares.module';
 import { AppointmentsModule } from './Routes/appointments/appointments.module';
-
+import { AuthModule } from './routes/auth/auth.module';
 @Module({
   imports: [
     LogModule,
@@ -15,6 +15,7 @@ import { AppointmentsModule } from './Routes/appointments/appointments.module';
     CaretypesModule,
     CaresModule,
     AppointmentsModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

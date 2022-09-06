@@ -16,8 +16,7 @@ model User {
   email      String   @unique @db.VarChar(255)
   password   String   @db.VarChar(255)
   created_at DateTime @default(now())
-  avatar     String?  @db.Text
-  role       Int      @default(1)
+  role       String   @default("User")
 }
 
 model Patient {
